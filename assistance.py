@@ -1,4 +1,3 @@
-
 import sounddevice as sd
 import numpy as np
 import speech_recognition as sr
@@ -15,7 +14,7 @@ def speak(text):
     engine.runAndWait()
 
 
-def listen(duration=5, fs=16000):
+def listen(duration=5 , fs=16000):
     speak("Listening...")
 
     try:
@@ -72,6 +71,16 @@ def open_youtube():
     webbrowser.open("https://www.youtube.com")
     speak("Opening YouTube")
 
+def play_music(song):
+    url = f"https://www.youtube.com/results?search_query={song}+song"
+    webbrowser.open(url)
+    speak(f"Playing music: {song}")
+
+def play_video(query):
+    url = f"https://www.youtube.com/results?search_query={query}"
+    webbrowser.open(url)
+    speak(f"Playing video: {query}")
+
 
 def create_file():
     with open("assistant_output.txt", "w") as f:
@@ -101,6 +110,14 @@ def assistant():
 
         elif "open youtube" in command:
             open_youtube()
+        
+        elif "play music" in command:
+            song = command.replace("play music", "").strip()
+            play_music(song)
+
+        elif "play video" in command:
+            query = command.replace("play video", "").strip()
+            play_video(query)
 
         elif "create file" in command:
             create_file()
@@ -109,8 +126,5 @@ def assistant():
             speak("Goodbye!")
             break
 
-        else:
-            speak("I did not understand that.")
-
-
 assistant()
+
